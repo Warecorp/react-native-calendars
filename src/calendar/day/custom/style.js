@@ -38,6 +38,22 @@ export default function styleConstructor(theme={}) {
     disabledText: {
       color: appStyle.textDisabledColor
     },
+    dot: {
+      width: 10,
+      height: 10,
+      marginTop: 1,
+      marginLeft: 1,
+      marginRight: 1,
+      borderRadius: 5,
+      opacity: 0
+    },
+    visibleDot: {
+      opacity: 1,
+      backgroundColor: appStyle.dotColor
+    },
+    selectedDot: {
+      backgroundColor: appStyle.selectedDotColor
+    },
     ...(theme[STYLESHEET_ID] || {})
   });
 }

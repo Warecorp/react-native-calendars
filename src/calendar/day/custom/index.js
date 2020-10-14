@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 import styleConstructor from './style';
@@ -8,7 +8,7 @@ import {shouldUpdate} from '../../../component-updater';
 
 class Day extends Component {
   static displayName = 'IGNORE';
-  
+
   static propTypes = {
     // TODO: disabled props should be removed
     state: PropTypes.oneOf(['selected', 'disabled', 'today', '']),
@@ -40,11 +40,29 @@ class Day extends Component {
     return shouldUpdate(this.props, nextProps, ['state', 'children', 'marking', 'onPress', 'onLongPress']);
   }
 
+  renderDots(marking) {
+    const baseDotStyle = [this.style.dot, this.style.visibleDot];
+    if (marking.dots && Array.isArray(marking.dots) && marking.dots.length > 0) {
+      // Filter out dots so that we we process only those items which have key and color property
+      const validDots = marking.dots.filter(d => (d && d.color));
+      return validDots.map((dot, index) => {
+        return (
+          <View key={dot.key ? dot.key : index} style={[baseDotStyle,
+            {backgroundColor: marking.selected && dot.selectedDotColor ? dot.selectedDotColor : dot.color}]}/>
+        );
+      });
+    }
+    return;
+  }
+
   render() {
     let containerStyle = [this.style.base];
     let textStyle = [this.style.text];
-    
+
     let marking = this.props.marking || {};
+
+    const dot = this.renderDots(marking);
+
     if (marking && marking.constructor === Array && marking.length) {
       marking = {
         marking: true
@@ -52,7 +70,7 @@ class Day extends Component {
     }
 
     const isDisabled = typeof marking.disabled !== 'undefined' ? marking.disabled : this.props.state === 'disabled';
-    
+
     if (marking.selected) {
       containerStyle.push(this.style.selected);
       textStyle.push(this.style.selectedText);
@@ -88,6 +106,7 @@ class Day extends Component {
         accessibilityLabel={this.props.accessibilityLabel}
       >
         <Text allowFontScaling={false} style={textStyle}>{String(this.props.children)}</Text>
+        <View style={{flexDirection: 'row'}}>{dot}</View>
       </TouchableOpacity>
     );
   }
