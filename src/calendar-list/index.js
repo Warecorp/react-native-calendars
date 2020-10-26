@@ -51,7 +51,9 @@ class CalendarList extends Component {
     /** Whether to use static header that will not scroll with the list (horizontal only) */
     staticHeader: PropTypes.bool,
     /** A custom key extractor for the generated calendar months */
-    keyExtractor: PropTypes.func
+    keyExtractor: PropTypes.func,
+    /** Inverted items order */
+    inverted: PropTypes.bool
   }
 
   static defaultProps = {
@@ -306,6 +308,7 @@ class CalendarList extends Component {
           //snapToAlignment='start'
           //snapToInterval={this.calendarHeight}
           removeClippedSubviews={this.props.removeClippedSubviews}
+          inverted={this.props.inverted}
           pageSize={1} // ListView deprecated
           horizontal={this.props.horizontal}
           pagingEnabled={this.props.pagingEnabled}
