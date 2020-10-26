@@ -104,7 +104,8 @@ class Calendar extends Component {
   };
 
   static defaultProps = {
-    enableSwipeMonths: false
+    enableSwipeMonths: false,
+    inverted: false
   };
 
   constructor(props) {
